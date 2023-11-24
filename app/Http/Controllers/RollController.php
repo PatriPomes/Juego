@@ -6,7 +6,7 @@ use App\Models\Roll;
 use App\Http\Requests\StoreRollsRequest;
 use App\Http\Requests\UpdateRollsRequest;
 
-class RollsController extends Controller
+class RollController extends Controller
 {
     /**
      * Display a listing of the resource.

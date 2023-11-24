@@ -45,6 +45,6 @@ class User extends Authenticatable
   
     public function rolls()
     {
-        return $this->hasMany(Roll::class,);
+        return $this->hasMany(Roll::class);
     }
 }
