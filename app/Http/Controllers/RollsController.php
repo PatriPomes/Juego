@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rolls;
+use App\Models\Roll;
 use App\Http\Requests\StoreRollsRequest;
 use App\Http\Requests\UpdateRollsRequest;
 
@@ -35,7 +35,7 @@ class RollsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Rolls $rolls)
+    public function show(Roll $rolls)
     {
         //
     }
@@ -43,7 +43,7 @@ class RollsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Rolls $rolls)
+    public function edit(Roll $rolls)
     {
         //
     }
@@ -51,7 +51,7 @@ class RollsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRollsRequest $request, Rolls $rolls)
+    public function update(UpdateRollsRequest $request, Roll $rolls)
     {
         //
     }
@@ -59,7 +59,7 @@ class RollsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rolls $rolls)
+    public function destroy(Roll $rolls)
     {
         //
     }

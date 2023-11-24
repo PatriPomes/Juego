@@ -17,8 +17,12 @@ return new class extends Migration
             $table->integer('dice2');
             $table->integer('total');
             $table->boolean('winner');
+
+            $table->unsignedBigInteger('user_id'); 
+            $table->foreign('user_id')->references('id')->on('users'); 
             $table->timestamps();
-        });
+    });
+        
     }
 
     /**

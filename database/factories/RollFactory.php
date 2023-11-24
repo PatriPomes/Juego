@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Roll>
  */
-class RollsFactory extends Factory
+class RollFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -26,7 +26,7 @@ class RollsFactory extends Factory
         'dice2'=> $dice2,
         'total'=> $total,
         'winner'=> $winner,
-        'user_id'=> UserFactory::factory()
+        'user_id' => \App\Models\User::factory()
         ];
     }
 }
