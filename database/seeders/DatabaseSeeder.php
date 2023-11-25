@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         ->has(\App\Models\Roll::factory()->count(5))
         ->create();
 
+        $this->call(RoleSeeder::class);
     }
    
 }
