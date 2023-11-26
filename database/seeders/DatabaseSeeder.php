@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Roll;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(5)
-        ->has(\App\Models\Roll::factory()->count(5))
+        User::factory(5)
+        ->has(Roll::factory()->count(5))
         ->create();
 
         $this->call(RoleSeeder::class);
+
+        
     }
    
 }
