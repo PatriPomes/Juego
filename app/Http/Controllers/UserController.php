@@ -62,7 +62,12 @@ class UserController extends Controller
        // $token->revoke();
         return response()->json(['message'=>'Succesfully logged out']);
     }
-    public function update($id){
+    public function update(Request $request, $id){
+    //faltan validaciones por realizar en request form;
 
+        $user = User::find($id);
+        $user->update($request->all());
+
+        return response()->json($user, 200);
     }
 }

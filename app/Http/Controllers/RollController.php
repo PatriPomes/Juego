@@ -12,10 +12,27 @@ class RollController extends Controller
      * Display a listing of the resource.
      */
    public function rollDice($id){
-
+        
+        $dice1 = rand(1, 6);
+        $dice2 = rand(1, 6);
+    
+        $total = $dice1 + $dice2;
+    
+        $winner = $total > 7 ? true : false;
+    
+        $roll = Roll::create([
+            'dice1' => $dice1,
+            'dice2' => $dice2,
+            'total' => $total,
+            'winner' => $winner,
+            'user_id' => $id
+        ]);
+        $roll->save();
+    
+        return response()->json($roll, 201);
    }
-   public function delteAllRollDice($id){
-
+   public function destroyAllRollDice($id){
+    
    }
    public function getSuccesPlayers(){
 
@@ -24,7 +41,7 @@ class RollController extends Controller
 
    }
    public function ranking(){
-    
+
    }
    public function getLoserPlayer(){
 

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\RollController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +22,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/payers', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login'])->name('login');
 
 Route::post('/logout',[UserController::class, 'logout'])->name('logout')->middleware('auth:api');
+
+Route::put('/players/{id}',[UserController::class, 'update'])->name('update')->middleware('auth:api');
+
+Route::post('/players/{id}/games',[RollController::class, 'rollDice'])->name('rollDice')->middleware('auth:api');
+
 
 // Route::middleware('auth:api')->group(function () {
     //aqui incluiremos las rutas que queramos proteger con token de acceso
