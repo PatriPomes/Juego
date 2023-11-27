@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Passport;
+
 
 class UserController extends Controller
 {
@@ -14,12 +17,12 @@ class UserController extends Controller
         ]);
         $data=[
             'email'=>$request->email,
-            'password'=>$request->password
+            'password'=>bcrypt($request->password)
         ];
         
         if(auth()->attempt($data)){
 
-            $token= $request->user()->createToken('PersonalToken')->accessToken;
+            $token= $request->user()->createToken('Personal Acces Token')->accessToken;
             return response()->json(['token'=>$token],200);
 
         }else{
@@ -38,14 +41,28 @@ class UserController extends Controller
         $user=User::create([
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>$request->password
+            'password'=>bcrypt($request->password)
         ]);
 
-        $token=$user->createToken('PersonalToken')->accessToken;
+        if ($user){
+            return response()->json(['message'=>'Your user has been created succesfully']);
 
-        return response()->json(['token'=>$token],200); //no devuelve token sino una vista, hay que encontrar el error en ruta
+        }else{
+            return response()->json(['message'=>'Sorry this user cant been generated']);
+        }
+
+        //$token=$user->createToken('Personal Acces Token')->accessToken;
+
+        //return response()->json(['token'=>$token],200); //no devuelve token sino una vista, hay que encontrar el error en ruta
     }
     public function logout(Request $request){
+            $user=Auth::user();
+       // $token=Auth::user()->token();
+       $user->tokens->each->revoke();
+       // $token->revoke();
+        return response()->json(['message'=>'Succesfully logged out']);
+    }
+    public function update($id){
 
     }
 }

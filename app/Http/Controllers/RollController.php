@@ -11,56 +11,26 @@ class RollController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
+   public function rollDice($id){
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+   }
+   public function delteAllRollDice($id){
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRollsRequest $request)
-    {
-        //
-    }
+   }
+   public function getSuccesPlayers(){
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Roll $rolls)
-    {
-        //
-    }
+   }
+   public function getRollsPlayer($id){
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Roll $rolls)
-    {
-        //
-    }
+   }
+   public function ranking(){
+    
+   }
+   public function getLoserPlayer(){
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRollsRequest $request, Roll $rolls)
-    {
-        //
-    }
+   }
+   public function getWinerPlayer(){
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Roll $rolls)
-    {
-        //
-    }
+   }
+    
 }
