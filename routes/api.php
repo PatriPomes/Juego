@@ -33,6 +33,9 @@ Route::post('/players/{id}/games',[RollController::class, 'rollDice'])->name('ro
 
 Route::delete('/players/{id}/games',[RollController::class, 'destroyAllRollDice'])->name('destroyAllRollDice')->middleware('auth:api');
 
+Route::get('/players',[RollController::class, 'getSuccesPlayers'])->name('getSuccesPlayers')->middleware('auth:api');
+
+Route::get('/players/{id}/games',[RollController::class, 'getRollsPlayer'])->name('getRollsPlayer')->middleware('auth:api');
 // Route::middleware('auth:api')->group(function () {
     //aqui incluiremos las rutas que queramos proteger con token de acceso
 // });

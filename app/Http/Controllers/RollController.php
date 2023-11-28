@@ -37,13 +37,24 @@ class RollController extends Controller
 
     User::destroy($id);
 
-      return response()->json(['message'=>'Tus tiradas han sido eliminadas.']);
+    return response()->json(['message'=>'Tus tiradas han sido eliminadas.']);
   }
-   public function getSuccesPlayers(){
+  public function getSuccesPlayers(){ //index()
 
+    $users = User::all();
 
-   }
-   public function getRollsPlayer($id){
+    $users->transform(function ($user) {
+      $user->load('rolls');
+        return $user;
+    });
+  
+    return response()->json($users);
+  }
+   
+   public function getRollsPlayer($id){ //show
+
+    $user = User::find($id);
+    return response()->json($user);
 
    }
    public function ranking(){
