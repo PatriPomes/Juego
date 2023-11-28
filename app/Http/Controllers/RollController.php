@@ -39,32 +39,64 @@ class RollController extends Controller
 
     return response()->json(['message'=>'Tus tiradas han sido eliminadas.']);
   }
-  public function getSuccesPlayers(){ //index()
+   //index()
 
-    $users = User::all();
-
-    $users->transform(function ($user) {
-      $user->load('rolls');
-        return $user;
-    });
-  
-    return response()->json($users);
+  public function successRate(){
+    $players = User::all();
+    $successRates = [];
+    
+    foreach ($players as $player) {
+      $totalRolls = $player->rolls()->count();
+      $winningRolls = $player->rolls()->where('winner', true)->count();
+        if ($totalRolls === 0) {
+            $successRates[$player->name] = 0;
+        } else {
+            $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
+        }
+    }
+    
+    return response()->json(['success_rates' => $successRates]);
   }
+  
    
-   public function getRollsPlayer($id){ //show
+  public function rollsPlayer($id){ //show
 
     $user = User::find($id);
     return response()->json($user);
 
    }
-   public function ranking(){
-
+  public function ranking(){
+      $players = User::all();
+      $rankings = [];
+   
+       foreach ($players as $player) {
+           $totalRolls = $player->rolls()->count();
+           $winningRolls = $player->rolls()->where('winner', true)->count();
+   
+           $successRate = $totalRolls === 0 ? 0 : ($winningRolls / $totalRolls) * 100;
+   
+           $rankings[] = [
+               'name' => $player->name,
+               'success_rate' => $successRate,
+               'total_rolls' => $totalRolls,
+           ];
+       }
+       $rankings = collect($rankings)->sortBy('total_rolls')->sortByDesc('success_rate')->values()->all();
+   
+       /*usort($rankings, function ($a, $b) {
+           if ($a['success_rate'] == $b['success_rate']) {
+               return $a['total_rolls'] <=> $b['total_rolls'];
+           }
+           return $b['success_rate'] <=> $a['success_rate'];
+       });*/
+    return response()->json(['rankings' => $rankings]);
+  }
+ 
+   public function losser(){
+    return $this->ranking()->last();
    }
-   public function getLoserPlayer(){
-
-   }
-   public function getWinerPlayer(){
-
+   public function winner(){
+    return $this->ranking()->first();
    }
     
 }

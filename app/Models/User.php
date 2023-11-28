@@ -49,11 +49,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Roll::class);
     }
-    public function getSuccessPercentageAttribute()
-    {
-        $totalRolls = $this->rolls->count();
-        $wonRolls = $this->rolls->where('result', 'win')->count();
-
-   return $totalRolls > 0 ? ($wonRolls / $totalRolls) * 100 : 0;
-    }
+     
 }
