@@ -31,7 +31,7 @@ class UserController extends Controller
         }
         
     }
-    public function register(Request $request){
+    public function playerRegister(Request $request){
         $this->validate ($request, [
             'name'=> 'required | min:4',
             'email'=> 'required | email',
@@ -42,7 +42,7 @@ class UserController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
-        ]);
+        ])->assignRole('Player');
 
         if ($user){
             return response()->json(['message'=>'Your user has been created succesfully']);
@@ -50,10 +50,26 @@ class UserController extends Controller
         }else{
             return response()->json(['message'=>'Sorry this user cant been generated']);
         }
+    }
+    public function userRegister(Request $request){
+        $this->validate ($request, [
+            'name'=> 'required | min:4',
+            'email'=> 'required | email',
+            'password'=>'required | min:8'
+        ]);
 
-        //$token=$user->createToken('Personal Acces Token')->accessToken;
+        $user=User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>bcrypt($request->password)
+        ])->assignRole('Admin');
 
-        //return response()->json(['token'=>$token],200); //no devuelve token sino una vista, hay que encontrar el error en ruta
+        if ($user){
+            return response()->json(['message'=>'Your user has been created succesfully']);
+
+        }else{
+            return response()->json(['message'=>'Sorry this user cant been generated']);
+        }
     }
     public function logout(Request $request){
             $user=Auth::user();

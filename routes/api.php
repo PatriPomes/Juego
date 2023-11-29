@@ -22,7 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/payers', [UserController::class, 'register']);
+Route::post('/players', [UserController::class, 'playerRegister']);
+Route::post('/adminRegister', [UserController::class, 'adminRegister']);
+
 Route::post('/login', [UserController::class, 'login'])->name('login');
 
 Route::post('/logout',[UserController::class, 'logout'])->name('logout')->middleware('auth:api');

@@ -14,13 +14,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(5)
+
+    $this->call(RoleSeeder::class);
+
+       $users= User::factory(5)
         ->has(Roll::factory()->count(5))
         ->create();
 
-        $this->call(RoleSeeder::class);
+        foreach ($users as $user) {
+            $user->assignRole('Player');
+        }
 
-        
+        User::create([
+            'name'=>'Patri',
+            'email'=>'patrimanzanas@hotmail.com',
+            'password'=>bcrypt('123456789')
+        ])->assignRole('Admin');
+                
     }
    
 }

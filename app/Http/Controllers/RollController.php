@@ -61,8 +61,15 @@ class RollController extends Controller
    
   public function rollsPlayer($id){ //show
 
-    $user = User::find($id);
-    return response()->json($user);
+    $player = User::find($id);
+    $totalRolls = $player->rolls()->count();
+    $winningRolls = $player->rolls()->where('winner', true)->count();
+
+    $successRate = $totalRolls === 0 ? 0 : ($winningRolls / $totalRolls) * 100;
+
+    $player->success_rate = $successRate;
+
+    return response()->json($player);
 
    }
   public function ranking(){
