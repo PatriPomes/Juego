@@ -42,7 +42,7 @@ class UserController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
-        ]);
+        ])->assignRole('Admin');
 
         if ($user){
             return response()->json(['message'=>'Your user has been created succesfully']);

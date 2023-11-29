@@ -15,12 +15,8 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $role1=Role::create(['name'=>'Admin']);
-        $role2=Role::create(['name'=> 'Player']);
+        $role2=Role::create(['name'=>'Player']);
 
-        
-        //ammpliar permisos cuando esten todos los metodos, 
-        //para actualizar cuando se amplie php artisan migrate:fresh -seed
-        //Permission::create(['name'=>'admin.home'])->assingRole($role1); solo un rol por permiso
         Permission::create(['name'=>'register'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'login'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'logout'])->syncRoles([$role1,$role2]);
