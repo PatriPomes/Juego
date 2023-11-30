@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\adminRegisterRequest;
 use App\Http\Requests\playerRegisterRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -43,7 +44,7 @@ class UserController extends Controller
         return response()->json(['message'=>'Tu usuario ha sido creado! Adelante!']);
         
     }
-    public function adminRegister(Request $request){
+    public function adminRegister(adminRegisterRequest $request){
         $this->validate ($request, [
             'name'=> 'required | min:4',
             'email'=> 'required | email',
