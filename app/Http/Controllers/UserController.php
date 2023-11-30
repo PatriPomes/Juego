@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\playerRegisterRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -31,27 +32,18 @@ class UserController extends Controller
         }
         
     }
-    public function playerRegister(Request $request){
-        $this->validate ($request, [
-            'name'=> 'required | min:4',
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
-
-        $user=User::create([
-            'name'=>$request->name,
+    public function playerRegister(playerRegisterRequest $request){
+        
+        User::create([
+            'name'=>$request->name ? $request->name : 'Anonimo',
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
         ])->assignRole('Player');
-
-        if ($user){
-            return response()->json(['message'=>'Your user has been created succesfully']);
-
-        }else{
-            return response()->json(['message'=>'Sorry this user cant been generated']);
-        }
+        
+        return response()->json(['message'=>'Tu usuario ha sido creado! Adelante!']);
+        
     }
-    public function userRegister(Request $request){
+    public function adminRegister(Request $request){
         $this->validate ($request, [
             'name'=> 'required | min:4',
             'email'=> 'required | email',

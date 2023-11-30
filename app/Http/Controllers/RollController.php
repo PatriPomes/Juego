@@ -19,7 +19,7 @@ class RollController extends Controller
     
     $total = $dice1 + $dice2;
     
-    $winner = $total > 7 ? true : false;
+    $winner = $total === 7 ? true : false;
     
     $roll = Roll::create([
       'dice1' => $dice1,
