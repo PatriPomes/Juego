@@ -7,11 +7,11 @@ use App\Models\User;
 
 class RollController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
   public function rollDice($id){
-        
+    
+    $this->authorize('author', $id);
+
     $dice1 = rand(1, 6);
     $dice2 = rand(1, 6);
     
@@ -32,6 +32,7 @@ class RollController extends Controller
       return response()->json($roll, 201);
   }
   public function destroyAllRollDice($id){
+    $this->authorize('author', $id);
 
     User::destroy($id);
 
@@ -39,7 +40,8 @@ class RollController extends Controller
   }
    //index()
 
-  public function successRate(){
+  public function successPlayers(){
+
     $players = User::all();
     $successRates = [];
     
@@ -58,7 +60,8 @@ class RollController extends Controller
   
    
   public function rollsPlayer($id){ //show
-
+    $this->authorize('author', $id);
+    
     $player = User::find($id);
     $totalRolls = $player->rolls()->count();
     $winningRolls = $player->rolls()->where('winner', true)->count();
