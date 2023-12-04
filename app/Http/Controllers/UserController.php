@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\adminRegisterRequest;
+use App\Http\Requests\loginRequest;
 use App\Http\Requests\playerRegisterRequest;
+use App\Http\Requests\updateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,7 @@ use Laravel\Passport\Passport;
 
 class UserController extends Controller
 {
-    public function login(Request $request){
+    public function login(loginRequest $request){
        
         $data=[
             'email'=>$request->email,
@@ -55,15 +57,13 @@ class UserController extends Controller
             return response()->json(['message'=>'Sorry this user cant been generated']);
         }
     }
-    public function logout(Request $request){
+    public function logout(){
             $user=Auth::user();
-       // $token=Auth::user()->token();
-       $user->tokens->each->revoke();
-       // $token->revoke();
+            $user->tokens->each->revoke();
         return response()->json(['message'=>'Succesfully logged out']);
     }
-    public function update(Request $request, $id){
-    //faltan validaciones por realizar en request form;
+    public function update(updateRequest $request, $id){
+    
 
         $user = User::find($id);
         $user->update($request->all());
