@@ -22,7 +22,7 @@ class adminRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|unique:users',
+            'name' => 'unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
             ];
@@ -30,7 +30,6 @@ class adminRegisterRequest extends FormRequest
      public function messages():Array
     {
         return[
-            'name.nullable'=>'Vaya, veo que no me dices como te llamas... Te llamare Anonimo!',
             'name.unique'=>'Lo siento, este nombre ya esta registrado. Prueba con otro',
             'email.required'=>'Necesitas un mail para registrarte',
             'email.unique'=>'Lo siento, este mail ya esta registrado. Prueba con otro',

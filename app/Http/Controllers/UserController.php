@@ -13,13 +13,10 @@ use Laravel\Passport\Passport;
 class UserController extends Controller
 {
     public function login(Request $request){
-        $this->validate ($request, [
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
+       
         $data=[
             'email'=>$request->email,
-            'password'=>bcrypt($request->password)
+            'password'=>$request->password
         ];
         
         if(auth()->attempt($data)){
@@ -29,9 +26,8 @@ class UserController extends Controller
 
         }else{
 
-            return response()->json(['error'=>'Unauthorized'],401); 
+            return response()->json(['error'=>'Correo electrónico o contraseña incorrectos'],401); 
         }
-        
     }
     public function playerRegister(playerRegisterRequest $request){
         
@@ -45,12 +41,7 @@ class UserController extends Controller
         
     }
     public function adminRegister(adminRegisterRequest $request){
-        $this->validate ($request, [
-            'name'=> 'required | min:4',
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
-
+        
         $user=User::create([
             'name'=>$request->name,
             'email'=>$request->email,
