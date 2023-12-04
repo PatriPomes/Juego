@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRollsRequest extends FormRequest
+class loginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,15 @@ class StoreRollsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required|email',
+            'password' => 'required'
+            ];
+    }
+    public function messages():Array
+    {
+        return[
+            'email.required'=>'Has olvidado introducir tu email',
+            'password.required'=>'Has olvidado introducir tu password',
         ];
     }
 }

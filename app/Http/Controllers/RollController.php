@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Roll;
-use App\Http\Requests\StoreRollsRequest;
-use App\Http\Requests\UpdateRollsRequest;
 use App\Models\User;
 
 class RollController extends Controller
@@ -19,7 +17,7 @@ class RollController extends Controller
     
     $total = $dice1 + $dice2;
     
-    $winner = $total > 7 ? true : false;
+    $winner = $total === 7 ? true : false;
     
     $roll = Roll::create([
       'dice1' => $dice1,

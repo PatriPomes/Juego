@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\adminRegisterRequest;
+use App\Http\Requests\loginRequest;
+use App\Http\Requests\playerRegisterRequest;
+use App\Http\Requests\updateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +14,11 @@ use Laravel\Passport\Passport;
 
 class UserController extends Controller
 {
-    public function login(Request $request){
-        $this->validate ($request, [
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
+    public function login(loginRequest $request){
+       
         $data=[
             'email'=>$request->email,
-            'password'=>bcrypt($request->password)
+            'password'=>$request->password
         ];
         
         if(auth()->attempt($data)){
@@ -27,37 +28,22 @@ class UserController extends Controller
 
         }else{
 
-            return response()->json(['error'=>'Unauthorized'],401); 
+            return response()->json(['error'=>'Correo electrónico o contraseña incorrectos'],401); 
         }
-        
     }
-    public function playerRegister(Request $request){
-        $this->validate ($request, [
-            'name'=> 'required | min:4',
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
-
-        $user=User::create([
-            'name'=>$request->name,
+    public function playerRegister(playerRegisterRequest $request){
+        
+        User::create([
+            'name'=>$request->name ? $request->name : 'Anonimo',
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
         ])->assignRole('Player');
-
-        if ($user){
-            return response()->json(['message'=>'Your user has been created succesfully']);
-
-        }else{
-            return response()->json(['message'=>'Sorry this user cant been generated']);
-        }
+        
+        return response()->json(['message'=>'Tu usuario ha sido creado! Adelante!']);
+        
     }
-    public function userRegister(Request $request){
-        $this->validate ($request, [
-            'name'=> 'required | min:4',
-            'email'=> 'required | email',
-            'password'=>'required | min:8'
-        ]);
-
+    public function adminRegister(adminRegisterRequest $request){
+        
         $user=User::create([
             'name'=>$request->name,
             'email'=>$request->email,
@@ -71,15 +57,13 @@ class UserController extends Controller
             return response()->json(['message'=>'Sorry this user cant been generated']);
         }
     }
-    public function logout(Request $request){
+    public function logout(){
             $user=Auth::user();
-       // $token=Auth::user()->token();
-       $user->tokens->each->revoke();
-       // $token->revoke();
+            $user->tokens->each->revoke();
         return response()->json(['message'=>'Succesfully logged out']);
     }
-    public function update(Request $request, $id){
-    //faltan validaciones por realizar en request form;
+    public function update(updateRequest $request, $id){
+    
 
         $user = User::find($id);
         $user->update($request->all());
