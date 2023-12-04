@@ -63,7 +63,7 @@ class UserController extends Controller
         return response()->json(['message'=>'Succesfully logged out']);
     }
     public function update(updateRequest $request, $id){
-    
+        $this->authorize('author', $id);
 
         $user = User::find($id);
         $user->update($request->all());
