@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Roll;
-use App\Http\Requests\StoreRollsRequest;
-use App\Http\Requests\UpdateRollsRequest;
 use App\Models\User;
 
 class RollController extends Controller
