@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
+use App\Http\Controllers\Controller;
 
 
 class UserController extends Controller
@@ -32,12 +33,13 @@ class UserController extends Controller
         }
     }
     public function playerRegister(playerRegisterRequest $request){
-        
+      
         User::create([
             'name'=>$request->name ? $request->name : 'Anonimo',
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
         ])->assignRole('Player');
+        
         
         return response()->json(['message'=>'Tu usuario ha sido creado! Adelante!']);
         

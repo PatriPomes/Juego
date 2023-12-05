@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name'=>'Patri',
             'email'=>'patrimanzanas@hotmail.com',
-            'password'=>bcrypt('123456789')
+            'password'=>bcrypt('123aBc/*-')
         ])->assignRole('Admin');
                 
     }
