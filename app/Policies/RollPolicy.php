@@ -23,4 +23,8 @@ class RollPolicy
 
     return $user->hasRole('Player')&& $user->id == $id;
     }
+    public function destroyAllRollDice(User $user,$id){
+
+        return $user->hasRole('Player')&& $user->id == $id;
+        }
 }

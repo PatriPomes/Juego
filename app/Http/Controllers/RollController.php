@@ -33,14 +33,15 @@ class RollController extends Controller
     return response()->json($roll, 200);
   }
   public function destroyAllRollDice($id){
-    $this->authorize('author', $id);
+    
+    $this->authorize('destroyAllRollDice', [Auth::user(), $id] );
 
-    User::destroy($id);
+    $user = User::find($id);
+    $user->rolls()->delete();
 
     return response()->json(['message'=>'Tus tiradas han sido eliminadas.']);
   }
-   //index()
-
+ 
   public function successPlayers(){
 
     $players = User::all();
