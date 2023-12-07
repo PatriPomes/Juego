@@ -11,26 +11,22 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Passport;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function login(loginRequest $request){
        
-        $data=[
-            'email'=>$request->email,
-            'password'=>$request->password
-        ];
-        
-        if(auth()->attempt($data)){
+        $user = User::where('email', $request->email)->first();
 
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::guard('api')->setUser($user);
             $token= $request->user()->createToken('Personal Acces Token')->accessToken;
-            return response()->json(['token'=>$token],200);
-
-        }else{
-
-            return response()->json(['error'=>'Correo electrónico o contraseña incorrectos'],401); 
+             return response()->json(['token'=>$token]);
+        } else {
+            return response()->json(['message'=>'Correo electrónico o contraseña incorrectos'],401); 
         }
+
     }
     public function playerRegister(playerRegisterRequest $request){
       
@@ -57,7 +53,7 @@ class UserController extends Controller
             return response()->json(['message'=>'Tu usuario administrador ha sido creado! Adelante!']);
         } else {
             
-            return response()->json(['message'=>'Debes ser administrador para realizar esta acción.',403]);
+            return response()->json(['message'=>'Debes ser administrador para realizar esta acción.']);
         }
      }
     public function logout(){
