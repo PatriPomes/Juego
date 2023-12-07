@@ -62,12 +62,7 @@ class UserController extends Controller
         return response()->json(['message'=>'Succesfully logged out']);
     }
     public function update(updateRequest $request, $id){
-       // $this->authorize('author', $id);
-        // $user = User::find($id);
-        // $user->update($request->all());
-
-        // return response()->json($user, 200);
-
+       
        if (Auth::guard('api')->check()) {
             $user = User::find($id);
             $this->authorize('update', $user);

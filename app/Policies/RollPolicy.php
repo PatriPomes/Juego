@@ -19,4 +19,8 @@ class RollPolicy
             return false;
         }
     }
+    public function rollDice(User $user,$id){
+
+    return $user->hasRole('Player')&& $user->id == $id;
+    }
 }

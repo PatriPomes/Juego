@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Roll;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class RollController extends Controller
 {
 
   public function rollDice($id){
     
-    $this->authorize('author', $id);
+    $this->authorize('rollDice', [Auth::user(), $id] );
 
     $dice1 = rand(1, 6);
     $dice2 = rand(1, 6);
@@ -29,7 +30,7 @@ class RollController extends Controller
 
     $roll->save();
     
-      return response()->json($roll, 201);
+    return response()->json($roll, 200);
   }
   public function destroyAllRollDice($id){
     $this->authorize('author', $id);
