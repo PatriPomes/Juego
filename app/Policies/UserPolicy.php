@@ -17,4 +17,8 @@ class UserPolicy
             return false;
         }
     }
+    public function update(User $loggedInUser, User $targetUser)
+    {
+    return $loggedInUser->id === $targetUser->id;
+    }
 }
