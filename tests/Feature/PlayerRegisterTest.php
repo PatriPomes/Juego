@@ -9,9 +9,8 @@ use Tests\TestCase;
 
 class PlayerRegisterTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+
+    //use RefreshDatabase;
     //PRUEBA DE EXITO//
     public function testPlayerRegisterSucces(){
       $response = $this->json('POST', 'api/players', [
@@ -67,5 +66,5 @@ class PlayerRegisterTest extends TestCase
 
       $response->assertStatus(422);
   }
-  
+
 }

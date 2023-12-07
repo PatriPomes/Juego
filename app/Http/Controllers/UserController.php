@@ -46,19 +46,20 @@ class UserController extends Controller
     }
     public function adminRegister(adminRegisterRequest $request){
         
-        $user=User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password)
-        ])->assignRole('Admin');
-
-        if ($user){
-            return response()->json(['message'=>'Your user has been created succesfully']);
-
-        }else{
-            return response()->json(['message'=>'Sorry this user cant been generated']);
+        if (Auth::guard('api')->check()) {
+          
+            User::create([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password'=>bcrypt($request->password)
+            ])->assignRole('Admin');
+     
+            return response()->json(['message'=>'Tu usuario administrador ha sido creado! Adelante!']);
+        } else {
+            
+            return response()->json(['message'=>'Debes ser administrador para realizar esta acción.',403]);
         }
-    }
+     }
     public function logout(){
             $user=Auth::user();
             $user->tokens->each->revoke();
