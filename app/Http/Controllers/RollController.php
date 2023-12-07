@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Roll;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class RollController extends Controller
 {
 
   public function rollDice($id){
+    
     
     $this->authorize('rollDice', [Auth::user(), $id] );
 
@@ -31,6 +33,7 @@ class RollController extends Controller
     $roll->save();
     
     return response()->json($roll, 200);
+  
   }
   public function destroyAllRollDice($id){
     
@@ -44,20 +47,27 @@ class RollController extends Controller
  
   public function successPlayers(){
 
-    $players = User::all();
-    $successRates = [];
-    
-    foreach ($players as $player) {
-      $totalRolls = $player->rolls()->count();
-      $winningRolls = $player->rolls()->where('winner', true)->count();
-        if ($totalRolls === 0) {
-            $successRates[$player->name] = 0;
-        } else {
-            $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
-        }
-    }
-    
-    return response()->json(['success_rates' => $successRates]);
+    //if (Auth::guard('api')->check()) {
+   
+      $this->authorize('success', Roll::class);
+      
+      $players = User::role('Player')->get();
+      $successRates = [];
+          foreach ($players as $player) {
+            $totalRolls = $player->rolls()->count();
+            $winningRolls = $player->rolls()->where('winner', true)->count();
+              if ($totalRolls === 0) {
+                $successRates[$player->name] = 0;
+              } else {
+                $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
+              }
+          }
+      return response()->json(['success_rates' => $successRates]);
+
+  // } else {
+  //   return response()->json(['message'=>'Debes ser administrador para realizar esta acción.']);
+  // }
+
   }
   
    
