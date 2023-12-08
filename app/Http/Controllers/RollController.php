@@ -12,14 +12,17 @@ class RollController extends Controller
 
   public function rollDice($id){
     
+    $player = User::find($id);
     
-    $this->authorize('rollDice', [Auth::user(), $id] );
+    $this->authorize('rollDice', Roll::class );
+
+    if ($player->id!== Auth::user()->id){
+      return response()->json(['message' => 'Forbbiden'], 403);
+    }
 
     $dice1 = rand(1, 6);
     $dice2 = rand(1, 6);
-    
     $total = $dice1 + $dice2;
-    
     $winner = $total === 7 ? true : false;
     
     $roll = Roll::create([
@@ -29,11 +32,10 @@ class RollController extends Controller
       'winner' => $winner,
       'user_id' => $id
     ]);
-
+    
     $roll->save();
     
-    return response()->json($roll, 200);
-  
+    return response()->json($roll);
   }
   public function destroyAllRollDice($id){
     

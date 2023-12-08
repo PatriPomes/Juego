@@ -10,14 +10,18 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class RollPolicy
 {
     use HandlesAuthorization;
-    public function author(User $user, $id)
-    {
-        if($user->id== $id){
-            return true;
+    // public function author(User $user, $id)
+    // {
+    //     if($user->id== $id){
+    //         return true;
 
-        }else{
-            return false;
-        }
+    //     }else{
+    //         return false;
+    //     }
+    // }
+    public function rolePlayer(User $user){
+
+        return $user->hasRole('Player');
     }
     public function rollDice(User $user,$id){
 
