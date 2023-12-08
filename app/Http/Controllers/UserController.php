@@ -13,8 +13,7 @@ use Laravel\Passport\Passport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
-{
+class UserController extends Controller{
     public function login(loginRequest $request){
 
         $user = User::where('email', $request->email)->first();
@@ -36,19 +35,18 @@ class UserController extends Controller
             'password'=>bcrypt($request->password)
         ])->assignRole('Player');
 
-
         return response()->json(['message'=>'Tu usuario ha sido creado! Adelante!']);
 
     }
     public function adminRegister(adminRegisterRequest $request){
-
+        
+        $this->authorize('roleAdmin', User::class);
+        
         if (Auth::guard('api')->check()) {
-
             User::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
-                'password'=>bcrypt($request->password)
-            ])->assignRole('Admin');
+                'password'=>bcrypt($request->password)])->assignRole('Admin');
 
             return response()->json(['message'=>'Tu usuario administrador ha sido creado! Adelante!']);
         } else {
