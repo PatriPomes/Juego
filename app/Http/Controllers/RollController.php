@@ -121,7 +121,13 @@ class RollController extends Controller
    return response()->json(['losserPlayer' => $losserPlayer]);
    }
    public function winnerPlayer(){
-    return $this->ranking()->first();
+
+    $this->authorize('roleAdmin', Roll::class );
+
+    $rankings = collect(json_decode($this->ranking()->getContent(), true)); 
+    $winnerPlayer = $rankings->first(); 
+
+   return response()->json(['winnerPlayer' => $winnerPlayer]);
    }
     
 }
