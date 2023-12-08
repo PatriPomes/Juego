@@ -31,10 +31,10 @@ class RollPolicy
 
     //     return $user->hasRole('Player')&& $user->id == $id;
     // }
-    public function success(User $user){
+    // public function success(User $user){
 
-        return $user->hasRole('Admin');
-    }
+    //     return $user->hasRole('Admin');
+    // }
     public function rollsPlayer(User $user){
        
         return  $user->hasRole('Player') ;

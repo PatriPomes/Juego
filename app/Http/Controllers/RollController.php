@@ -51,19 +51,19 @@ class RollController extends Controller
  
   public function successPlayers(){
    
-      $this->authorize('success', Roll::class);
+    $this->authorize('roleAdmin', Roll::class);
 
-      $players = User::role('Player')->get();
-      $successRates = [];
-          foreach ($players as $player) {
-            $totalRolls = $player->rolls()->count();
-            $winningRolls = $player->rolls()->where('winner', true)->count();
-              if ($totalRolls === 0) {
-                $successRates[$player->name] = 0;
-              } else {
-                $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
-              }
-          }
+    $players = User::role('Player')->get();
+    $successRates = [];
+        foreach ($players as $player) {
+          $totalRolls = $player->rolls()->count();
+          $winningRolls = $player->rolls()->where('winner', true)->count();
+            if ($totalRolls === 0) {
+              $successRates[$player->name] = 0;
+            } else {
+              $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
+            }
+        }
       return response()->json(['success_rates' => $successRates]);
   }
   

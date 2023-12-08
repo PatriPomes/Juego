@@ -43,7 +43,7 @@ class SuccessPlayersTest extends TestCase
 
         $response->assertStatus(403);
     }
-    public function testSuccessWithoutToken(){
+    public function testSuccessUnauthorized(){
     
         User::factory()->create()->assignRole('Admin');
     
