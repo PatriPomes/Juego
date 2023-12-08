@@ -67,12 +67,10 @@ class RollController extends Controller
       return response()->json(['success_rates' => $successRates]);
   }
   
-  public function rollsPlayer($id){ //show
+  public function rollsPlayer($id){ 
     
     $player = User::find($id); 
-  
-    $this->authorize('rollsPlayer', Roll::class );
-
+    $this->authorize('rolePlayer', Roll::class );
     if ($player->id!== Auth::user()->id){
       return response()->json(['message' => 'Forbbiden'], 403);
     }
@@ -88,9 +86,9 @@ class RollController extends Controller
 
     $player->rolls = $rolls;
     
-      return response()->json($player);
+    return response()->json($player);
 
-   }
+  }
   public function ranking(){
     
     Auth::guard('api')->check();
@@ -115,7 +113,7 @@ class RollController extends Controller
     return response()->json(['rankings' => $rankings]);
   }
  
-   public function losserPlayer(){
+  public function losserPlayer(){
 
     $this->authorize('roleAdmin', Roll::class );
 
@@ -123,15 +121,15 @@ class RollController extends Controller
     $losserPlayer = $rankings->last(); 
 
    return response()->json(['losserPlayer' => $losserPlayer]);
-   }
-   public function winnerPlayer(){
+  }
+  public function winnerPlayer(){
 
     $this->authorize('roleAdmin', Roll::class );
 
     $rankings = collect(json_decode($this->ranking()->getContent(), true)); 
     $winnerPlayer = $rankings->first(); 
 
-   return response()->json(['winnerPlayer' => $winnerPlayer]);
-   }
+  return response()->json(['winnerPlayer' => $winnerPlayer]);
+  }
     
 }
