@@ -8,13 +8,13 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-    public function author(User $user, $id)
+    
+    public function update(User $loggedInUser, User $targetUser)
     {
-        if($user->id== $id){
-            return true;
+    return $loggedInUser->id === $targetUser->id;
+    }
+    public function roleAdmin(User $user){
 
-        }else{
-            return false;
-        }
+        return $user->hasRole('Admin');
     }
 }

@@ -11,7 +11,7 @@ class updateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class updateRequest extends FormRequest
         return [
             'name' => 'nullable|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
+            'password' => 'required|min:8'
         ];
     }
     public function messages():Array
@@ -36,7 +36,7 @@ class updateRequest extends FormRequest
             'email.unique'=>'Lo siento, este mail ya esta registrado. Prueba con otro',
             'password.required'=>'Necesitas un password para registrarte',
             'password.min'=>'Ups, parece que tu password es demasiado corto. Pon uno mas largo',
-            'password.regex'=>'Tu password debe contener al menos una letra minúscula, una letra mayúscula, un número y un símbolo especial.'
+            
         ];
     }
 }

@@ -14,18 +14,18 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $role1=Role::create(['name'=>'Admin']);
-        $role2=Role::create(['name'=>'Player']);
+        $role1=Role::create(['name' =>'Admin','guard_name' => 'api']);
+        $role2=Role::create(['name'=>'Player','guard_name' => 'api']);
 
         Permission::create(['name'=>'adminRegister'])->assignRole($role1);
-        Permission::create(['name'=>'playerRegister'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'playerRegister']);
         Permission::create(['name'=>'login'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'logout'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'update'])->syncRoles([$role1,$role2]);
-        Permission::create(['name'=>'rollDice'])->syncRoles([$role1,$role2]);
-        Permission::create(['name'=>'destroyAllRollDice'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'rollDice'])->syncRoles([$role2]);
+        Permission::create(['name'=>'destroyAllRollDice'])->syncRoles([$role2]);
         Permission::create(['name'=>'succesPlayers'])->assignRole($role1);
-        Permission::create(['name'=>'rollsPlayer'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=>'rollsPlayer'])->syncRoles($role2);
         Permission::create(['name'=>'ranking'])->syncRoles([$role1,$role2]);
         Permission::create(['name'=>'losser'])->assignRole($role1);
         Permission::create(['name'=>'winner'])->assignRole($role1);
