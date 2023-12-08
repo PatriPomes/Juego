@@ -35,6 +35,9 @@ class RollPolicy
        
         return  $user->hasRole('Player') ;
     }
-    
+    public function roleAdmin(User $user){
+
+        return $user->hasRole('Admin');
+    }
     
 }

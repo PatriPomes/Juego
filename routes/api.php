@@ -52,8 +52,8 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('role:Admin')->group(function () {
         Route::post('/adminRegister', [UserController::class, 'adminRegister'])->name('adminRegister');
         Route::get('/players',[RollController::class, 'successPlayers'])->name('successPlayers');
-        Route::get('/players/ranking/losser',[RollController::class, 'loser'])->name('losser');
-        Route::get('/players/ranking/winner',[RollController::class, 'winner'])->name('winner');
+        Route::get('/players/ranking/losser',[RollController::class, 'losserPlayer'])->name('losserPlayer');
+        Route::get('/players/ranking/winner',[RollController::class, 'winnerPlayer'])->name('winnerPlayer');
 
     });
 
