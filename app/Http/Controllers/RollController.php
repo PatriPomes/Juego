@@ -46,11 +46,9 @@ class RollController extends Controller
   }
  
   public function successPlayers(){
-
-    //if (Auth::guard('api')->check()) {
    
       $this->authorize('success', Roll::class);
-      
+
       $players = User::role('Player')->get();
       $successRates = [];
           foreach ($players as $player) {
@@ -63,18 +61,18 @@ class RollController extends Controller
               }
           }
       return response()->json(['success_rates' => $successRates]);
-
-  // } else {
-  //   return response()->json(['message'=>'Debes ser administrador para realizar esta acción.']);
-  // }
-
   }
   
-   
   public function rollsPlayer($id){ //show
-    $this->authorize('author', $id);
     
-    $player = User::find($id);
+    $player = User::find($id); 
+  
+    $this->authorize('rollsPlayer', Roll::class );
+
+    if ($player->id!== Auth::user()->id){
+      return response()->json(['message' => 'Forbbiden'], 403);
+    }
+    
     $totalRolls = $player->rolls()->count();
     $winningRolls = $player->rolls()->where('winner', true)->count();
 
@@ -82,10 +80,17 @@ class RollController extends Controller
 
     $player->success_rate = $successRate;
 
-    return response()->json($player);
+        // Obtener todas las tiradas del jugador
+    $rolls = $player->rolls()->get();
+
+        // Añadir las tiradas al objeto del jugador
+    $player->rolls = $rolls;
+    
+      return response()->json($player);
 
    }
   public function ranking(){
+    
       $players = User::all();
       $rankings = [];
    

@@ -50,6 +50,5 @@ class SuccessPlayersTest extends TestCase
         $response = $this->getJson("api/players");
 
         $response->assertStatus(401);
-    
     }
 }
