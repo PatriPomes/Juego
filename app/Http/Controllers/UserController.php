@@ -43,6 +43,7 @@ class UserController extends Controller{
         $this->authorize('roleAdmin', User::class);
         
         if (Auth::guard('api')->check()) {
+
             User::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
@@ -62,7 +63,9 @@ class UserController extends Controller{
     public function update(updateRequest $request, $id){
        
        if (Auth::guard('api')->check()) {
+            
             $user = User::find($id);
+
             $this->authorize('update', $user);
         
             $user->update($request->all());
