@@ -80,10 +80,8 @@ class RollController extends Controller
 
     $player->success_rate = $successRate;
 
-        // Obtener todas las tiradas del jugador
     $rolls = $player->rolls()->get();
 
-        // Añadir las tiradas al objeto del jugador
     $player->rolls = $rolls;
     
       return response()->json($player);
@@ -91,7 +89,9 @@ class RollController extends Controller
    }
   public function ranking(){
     
-      $players = User::all();
+    Auth::guard('api')->check();
+
+      $players = User::role('Player')->get();
       $rankings = [];
    
        foreach ($players as $player) {
@@ -107,13 +107,7 @@ class RollController extends Controller
            ];
        }
        $rankings = collect($rankings)->sortBy('total_rolls')->sortByDesc('success_rate')->values()->all();
-   
-       /*usort($rankings, function ($a, $b) {
-           if ($a['success_rate'] == $b['success_rate']) {
-               return $a['total_rolls'] <=> $b['total_rolls'];
-           }
-           return $b['success_rate'] <=> $a['success_rate'];
-       });*/
+
     return response()->json(['rankings' => $rankings]);
   }
  
