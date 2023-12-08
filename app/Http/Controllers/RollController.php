@@ -13,9 +13,7 @@ class RollController extends Controller
   public function rollDice($id){
     
     $player = User::find($id);
-    
     $this->authorize('rollDice', Roll::class );
-
     if ($player->id!== Auth::user()->id){
       return response()->json(['message' => 'Forbbiden'], 403);
     }
@@ -32,14 +30,18 @@ class RollController extends Controller
       'winner' => $winner,
       'user_id' => $id
     ]);
-    
+
     $roll->save();
     
     return response()->json($roll);
   }
   public function destroyAllRollDice($id){
     
-    $this->authorize('destroyAllRollDice', [Auth::user(), $id] );
+    $player = User::find($id);
+    $this->authorize('rollDice', Roll::class );
+    if ($player->id!== Auth::user()->id){
+      return response()->json(['message' => 'Forbbiden'], 403);
+    }
 
     $user = User::find($id);
     $user->rolls()->delete();

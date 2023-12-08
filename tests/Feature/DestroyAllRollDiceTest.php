@@ -14,8 +14,7 @@ class DestroyAllRollDiceTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function testDestroyAllRollDiceSuccess()
-    {
+    public function testDestroyAllRollDiceSuccess(){
         
         $user = User::factory()->create()->assignRole('Player');
         $token = $user->createToken('Personal Access Token')->accessToken;
@@ -37,7 +36,7 @@ class DestroyAllRollDiceTest extends TestCase
     }
     public function testDestroyAllRollDiceForbidden(){
     
-        $user = User::factory()->create();
+        $user = User::factory()->create()->assignRole('admin');
         $token = $user->createToken('Personal Access Token')->accessToken;
     
         Roll::factory()->count(3)->create(['user_id' => $user->id]);
@@ -50,7 +49,7 @@ class DestroyAllRollDiceTest extends TestCase
         $response->assertStatus(403);
 
     }
-    public function testDestroyAllRollDiceWhithoutToken(){
+    public function testDestroyAllRollDiceUnauthorized(){
     
         $user = User::factory()->create()->assignRole('Player');
 
