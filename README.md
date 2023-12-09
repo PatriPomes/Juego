@@ -7,60 +7,47 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Resumen
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este proyecto es una API REST creada con Laravel. Los usuarios deben registrarse para jugar y automáticamente se les otorga el rol de jugador. La aplicación ofrece funcionalidades específicas basadas en el rol del usuario, permitiendo acciones distintas para administradores y jugadores. Ademas existe un superadministrador que tiene la posibilidad de crear otros administradores. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requerimientos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 7.4
+- Composer >= 2.6.5
+- Laravel/Framework ^10.10
+- Laravel/Passport ^11.10
+- Spatie/Laravel-Permission ^6.1
 
-## Learning Laravel
+## Configuración e Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clonar el repositorio: `git clone https://github.com/PatriPomes/Juego.git`
+2. Instalar las dependencias: `composer install`
+3. Configurar el archivo .env con las credenciales de la base de datos.
+4. Ejecutar las migraciones: `php artisan migrate`
+5. Generar las claves de Passport: `php artisan passport:install`
+6. No olvides tambien crear un cliente con Passport: 'php artisan passport:client --personal'
+7. Vuelve a configurar el archivo .env con tu 'cliente personal de passport'
+8. Iniciar el servidor de desarrollo: `php artisan serve`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Cómo jugar?
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Para jugar debes registrarte como usuario, introduciento un nombre, email y password. El nombre y el mail han de ser únicos. Por defecto se te asignara el role de Jugador.
+Posteriormente deberas realizar un login para acceder. El registro solo es una única vez.
+Todo jugador puede:
+- Actualizar sus datos.
+- Realizar tantas tirada como desee.
+- Borrar sus tiradas. 
+- Ver los resultados de todas sus tiradas.
+- Ver el ranking total del juego.
 
-## Laravel Sponsors
+Todo administrador puede:
+- Crear otros administradores.
+- Actualizar sus datos.
+- Consultar el mejor y peor jugador.
+- Ver el ranking total del juego.
+- Ver el porcentaje medio de exito de todos los jugadores.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Licencia
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+El framework Laravel es un software de código abierto con licencia MIT.
