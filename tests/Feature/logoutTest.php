@@ -21,7 +21,7 @@ class logoutTest extends TestCase
 
        $response->assertStatus(200);
        $response->assertJson([
-           'message' => 'Succesfully logged out'
+           'message' => 'Logout con exito!'
        ]);
    }
    public function testLogoutUnauthenticated(){
