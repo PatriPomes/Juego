@@ -22,8 +22,8 @@ class updateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|unique:users',
-            'email' => 'required|email|unique:users',
+            'name' => 'nullable',
+            'email' => 'required|email',
             'password' => 'required|min:8'
         ];
     }
@@ -31,9 +31,7 @@ class updateRequest extends FormRequest
     {
         return[
             'name.nullable'=>'Vaya, veo que ahora no me dices como te llamas... Te llamare Anonimo!',
-            'name.unique'=>'Lo siento, este nombre ya esta registrado. Prueba con otro',
             'email.required'=>'Necesitas un mail para registrarte',
-            'email.unique'=>'Lo siento, este mail ya esta registrado. Prueba con otro',
             'password.required'=>'Necesitas un password para registrarte',
             'password.min'=>'Ups, parece que tu password es demasiado corto. Pon uno mas largo',
             

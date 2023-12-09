@@ -58,7 +58,7 @@ class UserController extends Controller{
     public function logout(){
             $user=Auth::user();
             $user->tokens->each->revoke();
-        return response()->json(['message'=>'Succesfully logged out']);
+        return response()->json(['message'=>'Logout con exito!']);
     }
     public function update(updateRequest $request, $id){
        
@@ -70,10 +70,10 @@ class UserController extends Controller{
         
             $user->update($request->all());
 
-            return response()->json(['message'=>'Tu usuario ha sido actualizado! Adelante!', 200]);
+            return response()->json(['message'=>'Tu usuario ha sido actualizado! Adelante!']);
         } else {
 
-            return response()->json(['message'=>'Lo siento, este usuario no te pertenece'],403);
+            return response()->json(['message'=>'Lo siento, este usuario no te pertenece']);
         }
        
     }

@@ -13,7 +13,7 @@ class RollController extends Controller
   public function rollDice($id){
     
     $player = User::find($id);
-    $this->authorize('rollDice', Roll::class );
+    $this->authorize('rolePlayer', Roll::class );
     if ($player->id!== Auth::user()->id){
       return response()->json(['message' => 'Forbbiden'], 403);
     }
@@ -38,13 +38,13 @@ class RollController extends Controller
   public function destroyAllRollDice($id){
     
     $player = User::find($id);
-    $this->authorize('rollDice', Roll::class );
+    $this->authorize('rolePlayer', Roll::class );
     if ($player->id!== Auth::user()->id){
       return response()->json(['message' => 'Forbbiden'], 403);
     }
 
-    $user = User::find($id);
-    $user->rolls()->delete();
+    
+    $player->rolls()->delete();
 
     return response()->json(['message'=>'Tus tiradas han sido eliminadas.']);
   }
@@ -55,16 +55,16 @@ class RollController extends Controller
 
     $players = User::role('Player')->get();
     $successRates = [];
-        foreach ($players as $player) {
-          $totalRolls = $player->rolls()->count();
-          $winningRolls = $player->rolls()->where('winner', true)->count();
-            if ($totalRolls === 0) {
-              $successRates[$player->name] = 0;
-            } else {
-              $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
-            }
+    foreach ($players as $player) {
+        $totalRolls = $player->rolls()->count();
+        $winningRolls = $player->rolls()->where('winner', true)->count();
+        if ($totalRolls === 0) {
+            $successRates[$player->name] = 0;
+        } else {
+            $successRates[$player->name] = ($winningRolls / $totalRolls) * 100;
         }
-      return response()->json(['success_rates' => $successRates]);
+    }
+    return $successRates;
   }
   
   public function rollsPlayer($id){ 
@@ -93,43 +93,46 @@ class RollController extends Controller
     
     Auth::guard('api')->check();
 
-      $players = User::role('Player')->get();
-      $rankings = [];
+    $players = User::role('Player')->get();
+    $rankings = [];
    
-       foreach ($players as $player) {
-           $totalRolls = $player->rolls()->count();
-           $winningRolls = $player->rolls()->where('winner', true)->count();
+    foreach ($players as $player) {
+        $totalRolls = $player->rolls()->count();
+        if ($totalRolls === 0) {
+            continue; // Si el jugador no tiene ninguna tirada, pasa al siguiente jugador
+        }
+        $winningRolls = $player->rolls()->where('winner', true)->count();
+        $successRate = ($winningRolls / $totalRolls) * 100;
    
-           $successRate = $totalRolls === 0 ? 0 : ($winningRolls / $totalRolls) * 100;
-   
-           $rankings[] = [
-               'name' => $player->name,
-               'success_rate' => $successRate,
-               'total_rolls' => $totalRolls,
-           ];
-       }
-       $rankings = collect($rankings)->sortBy('total_rolls')->sortByDesc('success_rate')->values()->all();
-
+        $rankings[] = [
+            'name' => $player->name,
+            'success_rate' => $successRate,
+            'total_rolls' => $totalRolls,
+        ];
+    }
+    $rankings = collect($rankings)->sortBy('total_rolls')->sortByDesc('success_rate')->values()->all();
     return response()->json(['rankings' => $rankings]);
-  }
+}
  
   public function losserPlayer(){
 
     $this->authorize('roleAdmin', Roll::class );
 
-    $rankings = collect(json_decode($this->ranking()->getContent(), true)); 
-    $losserPlayer = $rankings->last(); 
+    $successRates = $this->successPlayers();
+    $losserPlayerName = array_search(min($successRates), $successRates);
+    $losserPlayer = User::where('name', $losserPlayerName)->first();
 
-   return response()->json(['losserPlayer' => $losserPlayer]);
+    return response()->json(['losserPlayer' => $losserPlayer, 'success_rate' => $successRates[$losserPlayerName]]);
   }
   public function winnerPlayer(){
 
     $this->authorize('roleAdmin', Roll::class );
 
-    $rankings = collect(json_decode($this->ranking()->getContent(), true)); 
-    $winnerPlayer = $rankings->first(); 
+    $successRates = $this->successPlayers();
+    $winnerPlayerName = array_search(max($successRates), $successRates);
+    $winnerPlayer = User::where('name', $winnerPlayerName)->first();
 
-  return response()->json(['winnerPlayer' => $winnerPlayer]);
+    return response()->json(['winnerPlayer' => $winnerPlayer, 'success_rate' => $successRates[$winnerPlayerName]]);
   }
     
 }
