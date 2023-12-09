@@ -13,7 +13,7 @@ El juego consta de una tirada de dos dados. Si la suma de ambos dados es igual a
 
 Este proyecto es una API REST creada con Laravel. Utiliza Passport y Spatie para la autenticación y la gestión de roles, respectivamente, garantizando la seguridad. Passport permite la autenticación de API mediante OAuth2, mientras que Spatie asigna roles a los usuarios y controla el acceso a las funcionalidades.
 
-Ademas, se ha intentado mantener el principio de responsabilidad única, asignando a cada parte del código una tarea específica. Además, se han realizado “commits atómicos”, cambios pequeños y autocontenidos, para mantener un historial de cambios claro y facilitar la detección y corrección de errores. Estas prácticas mejoran la calidad del código y la eficiencia del desarrollo.
+Ademas, se ha intentado mantener el principio de responsabilidad única, asignando a cada parte del código una tarea específica. Además, se han realizado “commits atómicos”, cambios pequeños y autocontenidos, para mantener un historial de cambios claro y facilitar la detección y corrección de errores. 
 
 
 ## Requerimientos
